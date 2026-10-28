@@ -8,43 +8,75 @@ use Illuminate\Http\Request;
 
 class EstudiantesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // GET /api/estudiantes
     public function index()
     {
-        //
+        // Incluye el nombre de su carrera relacionandola
+        $estudiantes = Estudiantes::with('carrera:id,nombre')->get();
+        return response()->json($estudiantes, 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // POST /api/estudiantes
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'carrera_id' => 'required|exists:carreras,id',
+            'codigo' => 'required|string|unique:estudiantes,codigo',
+            'nombres_apellidos' => 'required|string',
+            'email' => 'required|email|unique:estudiantes,email',
+            'fecha_nacimiento' => 'required|date',
+        ]);
+
+        $estudiante = Estudiantes::create($validatedData);
+
+        return response()->json($estudiante, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Estudiantes $estudiantes)
+    // GET /api/estudiantes/{id}
+    public function show($id)
     {
-        //
+        $estudiante = Estudiantes::with('carrera:id,nombre')->find($id);
+
+        if (!$estudiante) {
+            return response()->json(['message' => 'Estudiante no encontrado'], 404);
+        }
+
+        return response()->json($estudiante, 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Estudiantes $estudiantes)
+    // PUT /api/estudiantes/{id}
+    public function update(Request $request, $id)
     {
-        //
+        $estudiante = Estudiantes::find($id);
+
+        if (!$estudiante) {
+            return response()->json(['message' => 'Estudiante no encontrado'], 404);
+        }
+
+        $validatedData = $request->validate([
+            'carrera_id' => 'sometimes|required|exists:carreras,id',
+            'codigo' => 'sometimes|required|string|unique:estudiantes,codigo,' . $id,
+            'nombres_apellidos' => 'sometimes|required|string',
+            'email' => 'sometimes|required|email|unique:estudiantes,email,' . $id,
+            'fecha_nacimiento' => 'sometimes|required|date',
+        ]);
+
+        $estudiante->update($validatedData);
+
+        return response()->json($estudiante, 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Estudiantes $estudiantes)
+    // DELETE /api/estudiantes/{id}
+    public function destroy($id)
     {
-        //
+        $estudiante = Estudiantes::find($id);
+
+        if (!$estudiante) {
+            return response()->json(['message' => 'Estudiante no encontrado'], 404);
+        }
+
+        $estudiante->delete();
+
+        return response()->json(null, 204);
     }
 }
