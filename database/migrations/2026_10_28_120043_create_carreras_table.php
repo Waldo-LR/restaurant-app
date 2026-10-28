@@ -6,20 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('carreras', function (Blueprint $table) {
             $table->id();
+            $table->string('nombre', 100);
+            $table->string('codigo')->unique();
+            $table->string('facultad');
+            $table->unsignedTinyInteger('duracion_semestres'); // Valor entre 6 y 14
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('carreras');
