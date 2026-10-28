@@ -83,4 +83,16 @@ class CarrerasController extends Controller
 
         return response()->json(null, 204);
     }
+    
+    // GET /api/carreras/{id}/estudiantes
+    public function estudiantesByCarrera($id)
+    {
+        $carrera = Carreras::with('estudiantes')->find($id);
+
+        if (!$carrera) {
+            return response()->json(['message' => 'Carrera no encontrada'], 404);
+        }
+
+        return response()->json($carrera, 200);
+    }
 }
