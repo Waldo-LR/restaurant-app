@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Estudiante extends Model
+class Estudiantes extends Model
 {
     use HasFactory;
 
@@ -22,6 +22,6 @@ class Estudiante extends Model
     // Relación inversa: Un estudiante pertenece a una carrera
     public function carrera()
     {
-        return $this->belongsTo(Carrera::class, 'carrera_id');
+        return $this->belongsTo(Carreras::class, 'carrera_id');
     }
 }
