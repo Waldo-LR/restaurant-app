@@ -1,0 +1,68 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Colección Postman - API Rest",
+    "version": "1.0.0",
+    "description": ""
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:8000"
+    }
+  ],
+  "paths": {
+    "/api/estudiantes": {
+      "post": {
+        "summary": "1.- Creación de un estudiante (Cod: 201)",
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "carrera_id": {
+                    "type": "integer"
+                  },
+                  "codigo": {
+                    "type": "string"
+                  },
+                  "nombres_apellidos": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "fecha_nacimiento": {
+                    "type": "string",
+                    "format": "date"
+                  }
+                }
+              },
+              "example": {
+                "carrera_id": 1,
+                "codigo": "EST-99999",
+                "nombres_apellidos": "Juan Perez",
+                "email": "juan.perez@example.com",
+                "fecha_nacimiento": "2000-05-15"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/carreras/1": {
+      "delete": {
+        "summary": "3.- Eliminación rechazada de una carrera con estudiantes (Cod: 409)",
+        "responses": {}
+      }
+    },
+    "/api/carreras/1/estudiantes": {
+      "get": {
+        "summary": "4.- Endpoint de relación (Cod: 200)",
+        "responses": {}
+      }
+    }
+  }
+}
