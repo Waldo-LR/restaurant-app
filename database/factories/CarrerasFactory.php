@@ -2,23 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Carreras;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends Factory<Carreras>
- */
-class CarrerasFactory extends Factory
+class CarreraFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [
-            //
+            'nombre' => $this->faker->unique()->jobTitle(),
+            'codigo' => 'CAR-' . $this->faker->unique()->numberBetween(100, 999),
+            'facultad' => 'Facultad de ' . $this->faker->word(),
+            'duracion_semestres' => $this->faker->numberBetween(6, 14),
         ];
     }
 }
